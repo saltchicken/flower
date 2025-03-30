@@ -52,13 +52,9 @@
 
   let menu: {
     id: string;
-    top?: number;
-    left?: number;
-    right?: number;
-    bottom?: number;
+    x?: number;
+    y?: number;
   } | null;
-  let width: number;
-  let height: number;
 
   function handleContextMenu({ detail: { event, node } }) {
     // Prevent native context menu from showing
@@ -68,11 +64,8 @@
     // doesn't get positioned off-screen.
     menu = {
       id: node.id,
-      top: event.clientY < height - 200 ? event.clientY : undefined,
-      left: event.clientX < width - 200 ? event.clientX : undefined,
-      right: event.clientX >= width - 200 ? width - event.clientX : undefined,
-      bottom:
-        event.clientY >= height - 200 ? height - event.clientY : undefined,
+      x: event.clientX,
+      y: event.clientY,
     };
   }
 
@@ -97,10 +90,8 @@
       <ContextMenu
         onClick={handlePaneClick}
         id={menu.id}
-        top={menu.top}
-        left={menu.left}
-        right={menu.right}
-        bottom={menu.bottom}
+        x={menu.x}
+        y={menu.y}
       />
     {/if}
     <MiniMap />

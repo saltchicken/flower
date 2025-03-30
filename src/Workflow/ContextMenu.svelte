@@ -1,15 +1,24 @@
 <script lang="ts">
-  import { useEdges, useNodes } from "@xyflow/svelte";
+  import { useEdges, useNodes, useSvelteFlow } from "@xyflow/svelte";
+
+  const { screenToFlowPosition } = useSvelteFlow();
 
   export let onClick: () => void;
   export let id: string;
-  export let top: number | undefined;
-  export let left: number | undefined;
-  export let right: number | undefined;
-  export let bottom: number | undefined;
+  export let x: number;
+  export let y: number;
+
+  const MENU_HEIGHT = 500;
+  const MENU_WIDTH = 200;
+
+  $: top = y < window.innerHeight - MENU_HEIGHT ? y : undefined;
+  $: left = x < window.innerWidth - MENU_WIDTH ? x : undefined;
+  $: right = x >= window.innerWidth - MENU_WIDTH ? window.innerWidth - x : undefined;
+  $: bottom = y >= window.innerHeight - MENU_HEIGHT ? window.innerHeight - y : undefined;
 
   const nodes = useNodes();
   const edges = useEdges();
+
 
   function duplicateNode() {
     const node = $nodes.find((node) => node.id === id);
@@ -33,11 +42,7 @@
   }
 </script>
 
-<div
-  style="top: {top}px; left: {left}px; right: {right}px; bottom: {bottom}px;"
-  class="context-menu"
-  on:click={onClick}
->
+<div style="top: {top}px; left: {left}px; right:{right}px; bottom: {bottom}px" class="context-menu" on:click={onClick}>
   <p style="margin: 0.5em;">
     <small>node: {id}</small>
   </p>
