@@ -3,6 +3,8 @@
 
   const { screenToFlowPosition } = useSvelteFlow();
 
+  console.log("Opening context menu");
+
   export let onClick: () => void;
   export let id: string;
   export let x: number;
@@ -13,12 +15,13 @@
 
   $: top = y < window.innerHeight - MENU_HEIGHT ? y : undefined;
   $: left = x < window.innerWidth - MENU_WIDTH ? x : undefined;
-  $: right = x >= window.innerWidth - MENU_WIDTH ? window.innerWidth - x : undefined;
-  $: bottom = y >= window.innerHeight - MENU_HEIGHT ? window.innerHeight - y : undefined;
+  $: right =
+    x >= window.innerWidth - MENU_WIDTH ? window.innerWidth - x : undefined;
+  $: bottom =
+    y >= window.innerHeight - MENU_HEIGHT ? window.innerHeight - y : undefined;
 
   const nodes = useNodes();
   const edges = useEdges();
-
 
   function duplicateNode() {
     const node = $nodes.find((node) => node.id === id);
@@ -42,7 +45,11 @@
   }
 </script>
 
-<div style="top: {top}px; left: {left}px; right:{right}px; bottom: {bottom}px" class="context-menu" on:click={onClick}>
+<div
+  style="top: {top}px; left: {left}px; right:{right}px; bottom: {bottom}px"
+  class="context-menu"
+  on:click={onClick}
+>
   <p style="margin: 0.5em;">
     <small>node: {id}</small>
   </p>
@@ -71,4 +78,3 @@
     background: white;
   }
 </style>
-

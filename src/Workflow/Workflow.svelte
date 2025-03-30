@@ -57,16 +57,21 @@
   } | null;
 
   function handleContextMenu({ detail: { event, node } }) {
-    // Prevent native context menu from showing
     event.preventDefault();
-
-    // Calculate position of the context menu. We want to make sure it
-    // doesn't get positioned off-screen.
-    menu = {
-      id: node.id,
-      x: event.clientX,
-      y: event.clientY,
-    };
+    console.log(menu);
+    if (!menu) {
+      // Calculate position of the context menu. We want to make sure it
+      // doesn't get positioned off-screen.
+      menu = {
+        id: node.id,
+        x: event.clientX,
+        y: event.clientY,
+      };
+    } else {
+      console.log("Why");
+      menu = null;
+    }
+    return;
   }
 
   // Close the context menu if it's open whenever the window is clicked.
